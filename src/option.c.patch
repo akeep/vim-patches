@@ -1,0 +1,15 @@
+*** option.c.0	2010-08-04 14:49:18.000000000 -0400
+--- option.c	2010-11-27 22:26:56.000000000 -0500
+***************
+*** 2851,2856 ****
+--- 2851,2860 ----
+  			    (char_u *)&p_wd, PV_NONE,
+  			    {(char_u *)0L, (char_u *)0L} SCRIPTID_INIT},
+  
++     {"yankleavecursor",  NULL,   P_NUM|P_VI_DEF,
++ 			    (char_u *)&p_ylc, PV_NONE,
++ 			    {(char_u *)FALSE, (char_u *)0L} SCRIPTID_INIT},
++ 
+  /* terminal output codes */
+  #define p_term(sss, vvv)   {sss, NULL, P_STRING|P_VI_DEF|P_RALL|P_SECURE, \
+  			    (char_u *)&vvv, PV_NONE, \

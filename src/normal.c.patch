@@ -1,0 +1,91 @@
+*** normal.c.0	2010-07-31 09:25:19.000000000 -0400
+--- normal.c	2010-11-27 22:27:43.000000000 -0500
+***************
+*** 1213,1219 ****
+      /*
+       * If an operation is pending, handle it...
+       */
+!     do_pending_operator(&ca, old_col, FALSE);
+  
+      /*
+       * Wait for a moment when a message is displayed that will be overwritten
+--- 1213,1219 ----
+      /*
+       * If an operation is pending, handle it...
+       */
+!     do_pending_operator(&ca, old_col, FALSE, old_pos);
+  
+      /*
+       * Wait for a moment when a message is displayed that will be overwritten
+***************
+*** 1390,1399 ****
+   * Handle an operator after visual mode or when the movement is finished
+   */
+      void
+! do_pending_operator(cap, old_col, gui_yank)
+      cmdarg_T	*cap;
+      int		old_col;
+      int		gui_yank;
+  {
+      oparg_T	*oap = cap->oap;
+      pos_T	old_cursor;
+--- 1390,1400 ----
+   * Handle an operator after visual mode or when the movement is finished
+   */
+      void
+! do_pending_operator(cap, old_col, gui_yank, old_pos)
+      cmdarg_T	*cap;
+      int		old_col;
+      int		gui_yank;
++     pos_T       old_pos;
+  {
+      oparg_T	*oap = cap->oap;
+      pos_T	old_cursor;
+***************
+*** 1936,1943 ****
+  		if (!gui_yank)
+  		    vim_beep();
+  	    }
+! 	    else
+  		(void)op_yank(oap, FALSE, !gui_yank);
+  	    check_cursor_col();
+  	    break;
+  
+--- 1937,1946 ----
+  		if (!gui_yank)
+  		    vim_beep();
+  	    }
+! 	    else {
+  		(void)op_yank(oap, FALSE, !gui_yank);
++                 if (p_ylc) curwin->w_cursor = old_pos;
++             }
+  	    check_cursor_col();
+  	    break;
+  
+***************
+*** 9225,9230 ****
+--- 9228,9234 ----
+  #endif
+      int		dir;
+      int		flags = 0;
++     pos_T       old_pos = curwin->w_cursor;		/* remember where cursor was */
+  
+      if (cap->oap->op_type != OP_NOP)
+      {
+***************
+*** 9278,9284 ****
+  	    cap->nchar = NUL;
+  	    cap->oap->regname = NUL;
+  	    nv_operator(cap);
+! 	    do_pending_operator(cap, 0, FALSE);
+  	    empty = (curbuf->b_ml.ml_flags & ML_EMPTY);
+  
+  	    /* delete PUT_LINE_BACKWARD; */
+--- 9282,9288 ----
+  	    cap->nchar = NUL;
+  	    cap->oap->regname = NUL;
+  	    nv_operator(cap);
+! 	    do_pending_operator(cap, 0, FALSE, old_pos);
+  	    empty = (curbuf->b_ml.ml_flags & ML_EMPTY);
+  
+  	    /* delete PUT_LINE_BACKWARD; */
