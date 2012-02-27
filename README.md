@@ -36,8 +36,8 @@ always want to tab things in the length of the first function, we now tab in by
 the indent amount at each call.  We have added a `!` to the front of lispwords
 to indicate that these are the things we want to indent based on the length of
 the first element.  My default, in the scheme.vim of my akeep/vimrc project, I
-have if, or, and, +, -, *, /, <, =, and > in there.  This is set with `set
-lispwords=!if,or,and,+,-,*,/,<,=,>`.
+have `if`, `or`, `and`, `+`, `-`, `*`, `/`, `<`, `=`, and `>` in there.  This
+is set with `set lispwords=!if,or,and,+,-,*,/,<,=,>`.
 
 Vim Yank Update
 ================
@@ -45,13 +45,13 @@ Vim Yank Update
 By default Vim yank leaves you at the mark that you yanked to, rather than the
 location you ynaked from.  For instance, if you have the following mark set:
 
-marks | code
----------------------------
-m     | (let ([x e] ---)
-      |   ---
-      |   ---)
-      |
->     | (foo ---)
+| marks | code              |
+|-------|-------------------|
+| m     | (let ([x e] ---)  |
+|       |   ---             |
+|       |   ---)            |
+|       |                   |
+| >     | (foo ---)         |
 
 Where `m` is your mark and `>` is your cursor, using Vim yank will leave your
 cursor at `m`.  Our patch allows you to tell Vim to leave your cursor at `>`.
